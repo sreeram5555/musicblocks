@@ -3038,10 +3038,8 @@ const getTemperamentKeys = () => {
  * @returns {void}
  */
 const addTemperamentToList = newEntry => {
-    for (let i = 0; i < TEMPERAMENTS.length; i++) {
-        if (PreDefinedTemperaments[i] === newEntry) {
-            return;
-        }
+    if (TEMPERAMENTS.some(entry => entry === newEntry)) {
+        return;
     }
     TEMPERAMENTS.push(newEntry);
 };
@@ -3331,8 +3329,8 @@ const getFilterTypes = name => {
  * @returns {string|null} The oscillator type, or null if not found.
  */
 const getOscillatorTypes = name => {
-    if (name === "") {
-        name = null; // DEFAULTOSCILLATORTYPE;
+    if (name === null || name === undefined || name === "") {
+        return null;
     }
 
     for (let type = 0; type < OSCTYPES.length; type++) {
