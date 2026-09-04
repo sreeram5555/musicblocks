@@ -935,7 +935,7 @@ function MusicKeyboard(activity) {
                 this.metronomeON = true;
                 this.tickButton.style.background = platformColor.orange;
 
-                const winBody = document.getElementsByClassName("wfbWidget")[0];
+                const winBody = this.widgetWindow.getWidgetBody();
                 const countdownContainer = document.createElement("div");
                 countdownContainer.id = "countdownContainer";
 
