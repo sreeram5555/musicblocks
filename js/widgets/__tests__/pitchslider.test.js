@@ -374,6 +374,32 @@ describe("PitchSlider Widget", () => {
             expect(parseFloat(mockSliderObj.value)).toBeCloseTo(expected, 2);
         });
 
+        test("Shift + ArrowUp increases frequency by an octave", () => {
+            const event = {
+                key: "ArrowUp",
+                shiftKey: true,
+                preventDefault: jest.fn(),
+                stopPropagation: jest.fn()
+            };
+            keyHandler(event);
+
+            const expected = 440 * 2;
+            expect(parseFloat(mockSliderObj.value)).toBeCloseTo(expected, 2);
+        });
+
+        test("Shift + ArrowDown decreases frequency by an octave", () => {
+            const event = {
+                key: "ArrowDown",
+                shiftKey: true,
+                preventDefault: jest.fn(),
+                stopPropagation: jest.fn()
+            };
+            keyHandler(event);
+
+            const expected = 440 / 2;
+            expect(parseFloat(mockSliderObj.value)).toBeCloseTo(expected, 2);
+        });
+
         test("ArrowLeft decreases frequency by semitone", () => {
             const event = {
                 key: "ArrowLeft",

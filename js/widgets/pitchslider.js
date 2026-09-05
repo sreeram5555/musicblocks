@@ -94,15 +94,23 @@ class PitchSlider {
                     const max = parseFloat(slider.max);
                     const currentValue = parseFloat(slider.value);
 
+                    const stepFactor = event.shiftKey ? 2 : semitone;
+
                     if (event.key === "ArrowUp" || event.key === "ArrowRight") {
-                        // Move up by a semitone
-                        slider.value = this._stepFrequency(currentValue, "up", semitone, min, max);
+                        // Move up by a step (semitone or octave)
+                        slider.value = this._stepFrequency(
+                            currentValue,
+                            "up",
+                            stepFactor,
+                            min,
+                            max
+                        );
                     } else if (event.key === "ArrowDown" || event.key === "ArrowLeft") {
-                        // Move down by a semitone
+                        // Move down by a step (semitone or octave)
                         slider.value = this._stepFrequency(
                             currentValue,
                             "down",
-                            semitone,
+                            stepFactor,
                             min,
                             max
                         );
