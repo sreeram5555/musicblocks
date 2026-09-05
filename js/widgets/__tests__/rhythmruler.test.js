@@ -28,6 +28,7 @@ const ManagedTimer = require("../../utils/ManagedTimer.js");
 // Mock translation function
 global._ = msg => msg;
 
+global.clampNumber = require("../../utils/utils-logic.js").clampNumber;
 // Mock global constants required by RhythmRuler
 global.TONEBPM = 240;
 global.EIGHTHNOTEWIDTH = 24;

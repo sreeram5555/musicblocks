@@ -708,13 +708,17 @@ class RhythmRuler {
             if (event.keyCode === 13 || event.key === "Enter") {
                 event.preventDefault();
                 event.stopPropagation();
-                const inputValue = parseInt(this._dissectNumber.value, 10);
-                if (!isNaN(inputValue) && inputValue > 0) {
-                    // Validate the input value - allow any number from 2 to 128
-                    const validatedValue = clampNumber(inputValue, 2, 128);
-                    this._dissectNumber.value = validatedValue;
-                }
                 this._dissectNumber.blur();
+            }
+        });
+
+        // Handle blur to validate input explicitly
+        this._dissectNumber.addEventListener("blur", () => {
+            const inputValue = parseInt(this._dissectNumber.value, 10);
+            if (isNaN(inputValue)) {
+                this._dissectNumber.value = 2; // Default to 2 on invalid input
+            } else {
+                this._dissectNumber.value = clampNumber(inputValue, 2, 128);
             }
         });
 
@@ -1209,11 +1213,11 @@ class RhythmRuler {
                 }, interval);
             }
         } else {
-            let inputNum = this._dissectNumber.value;
-            if (inputNum === "" || isNaN(inputNum)) {
+            let inputNum = parseInt(this._dissectNumber.value, 10);
+            if (isNaN(inputNum)) {
                 inputNum = 2;
             } else {
-                inputNum = Math.abs(Math.floor(inputNum));
+                inputNum = clampNumber(inputNum, 2, 128);
             }
 
             this._dissectNumber.value = inputNum;
@@ -1295,11 +1299,11 @@ class RhythmRuler {
             }
 
             // convert times into cells here.
-            let inputNum = this._dissectNumber.value;
-            if (inputNum === "" || isNaN(inputNum)) {
+            let inputNum = parseInt(this._dissectNumber.value, 10);
+            if (isNaN(inputNum)) {
                 inputNum = 2;
             } else {
-                inputNum = Math.abs(Math.floor(inputNum));
+                inputNum = clampNumber(inputNum, 2, 128);
             }
 
             // Minimum beat is tied to the input number
@@ -3370,11 +3374,11 @@ class RhythmRuler {
         this._rulerSelected = down.rulerIndex;
         const ruler = this._rulers[down.rulerIndex];
         if (ruler && ruler.cells[down.cellIndex]) {
-            let inputNum = this._dissectNumber.value;
-            if (inputNum === "" || isNaN(inputNum)) {
+            let inputNum = parseInt(this._dissectNumber.value, 10);
+            if (isNaN(inputNum)) {
                 inputNum = 2;
             } else {
-                inputNum = Math.abs(Math.floor(inputNum));
+                inputNum = clampNumber(inputNum, 2, 128);
             }
             this.__dissectByNumber(ruler.cells[down.cellIndex], inputNum, true);
             this.saveDissectHistory();
