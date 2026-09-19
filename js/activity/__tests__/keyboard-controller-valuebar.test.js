@@ -47,7 +47,7 @@ test("an unrelated status message (e.g. Alt-R Play) does not block ENTER-to-stop
 
     const controller = setupKeyboardController(activity);
     const event = new Event("keydown", { cancelable: true });
-    Object.defineProperty(event, "keyCode", { value: 13, configurable: true });
+    Object.defineProperty(event, "key", { value: "Enter", configurable: true });
     Object.defineProperty(event, "altKey", { value: false, configurable: true });
 
     controller.__keyPressed(event);
@@ -79,7 +79,7 @@ test("value-bar display still blocks hotkeys (the original #4931 protection is p
 
     const controller = setupKeyboardController(activity);
     const event = new Event("keydown", { cancelable: true });
-    Object.defineProperty(event, "keyCode", { value: 13, configurable: true });
+    Object.defineProperty(event, "key", { value: "Enter", configurable: true });
     Object.defineProperty(event, "altKey", { value: false, configurable: true });
 
     controller.__keyPressed(event);
