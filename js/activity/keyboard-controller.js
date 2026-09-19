@@ -81,11 +81,17 @@ class KeyboardController {
         // Alt+S handling further below, and the browser handled the raw
         // keydown instead of MB. preventDefault() here ensures MB — not
         // the browser — owns this keystroke.
-        if (event.altKey && event.keyCode === 83 && activity.turtles.running()) {
+        if (
+            event.altKey &&
+            event.key &&
+            event.key.toLowerCase() === "s" &&
+            activity.turtles.running()
+        ) {
             event.preventDefault();
             activity.textMsg("Alt-S " + _("Stop"));
             activity.logo.doStopTurtles();
-            activity.currentKeyCode = event.keyCode;
+            activity.currentKeyCode =
+                event.key && event.key.length === 1 ? event.key.charCodeAt(0) : event.keyCode;
             return;
         }
 
@@ -93,10 +99,10 @@ class KeyboardController {
         if (this._isWidgetOpen("slider")) {
             // If the event is an arrow key, let the PitchSlider handle it
             if (
-                event.keyCode === 37 ||
-                event.keyCode === 38 ||
-                event.keyCode === 39 ||
-                event.keyCode === 40
+                event.key === "ArrowLeft" ||
+                event.key === "ArrowUp" ||
+                event.key === "ArrowRight" ||
+                event.key === "ArrowDown"
             ) {
                 // Simply prevent default behavior here
                 // The actual pitch slider handling is done in the PitchSlider class
@@ -157,9 +163,9 @@ class KeyboardController {
                 return;
             }
         }
-        // const BACKSPACE = 8;
-        const TAB = 9;
-        if (event.keyCode === TAB) {
+        // const BACKSPACE = "Backspace";
+        const TAB = "Tab";
+        if (event.key === TAB) {
             // FocusCycleManager owns Tab navigation when it is active. The
             // legacy body/canvas guard would otherwise swallow the first Tab
             // after toolbar Escape blurs the active control.
@@ -182,22 +188,22 @@ class KeyboardController {
             }
             return;
         }
-        const ESC = 27;
-        // const ALT = 18;
-        // const CTRL = 17;
-        // const SHIFT = 16;
-        const RETURN = 13;
-        const SPACE = 32;
-        const HOME = 36;
-        const END = 35;
-        const PAGE_UP = 33;
-        const PAGE_DOWN = 34;
-        const KEYCODE_LEFT = 37;
-        const KEYCODE_RIGHT = 39;
-        const KEYCODE_UP = 38;
-        const KEYCODE_DOWN = 40;
-        const DEL = 46;
-        const V = 86;
+        const ESC = "Escape";
+        // const ALT = "Alt";
+        // const CTRL = "Control";
+        // const SHIFT = "Shift";
+        const RETURN = "Enter";
+        const SPACE = " ";
+        const HOME = "Home";
+        const END = "End";
+        const PAGE_UP = "PageUp";
+        const PAGE_DOWN = "PageDown";
+        const KEYCODE_LEFT = "ArrowLeft";
+        const KEYCODE_RIGHT = "ArrowRight";
+        const KEYCODE_UP = "ArrowUp";
+        const KEYCODE_DOWN = "ArrowDown";
+        const DEL = "Delete";
+        const V = "v";
         const lilypondModal = document.getElementById("lilypondModal");
         const samplerPrompt = document.getElementById("samplerPrompt");
         const planetIframe = document.getElementById("planet-iframe");
@@ -216,31 +222,31 @@ class KeyboardController {
         activity.inTempoWidget = this._isWidgetOpen("tempo");
         if (
             (event.altKey && !disableKeys) ||
-            event.keyCode === 13 ||
+            event.key === "Enter" ||
             event.key === "/" ||
             event.key === "\\"
         ) {
-            switch (event.keyCode) {
-                case 66: // 'B'
+            switch (event.key.length === 1 ? event.key.toLowerCase() : event.key) {
+                case "b": // 'B'
                     activity.textMsg("Alt-B " + _("Saving block artwork"));
                     activity.save.saveBlockArtwork();
                     break;
-                case 67: // 'C'
+                case "c": // 'C'
                     activity.textMsg("Alt-C " + _("Copy"));
                     activity.blocks.prepareStackForCopy();
                     break;
-                case 69: // 'E'
+                case "e": // 'E'
                     activity.textMsg("Alt-E " + _("Erase"));
                     activity._allClear(false);
                     break;
-                case 82: {
+                case "r": {
                     // 'R or ENTER'
                     activity.textMsg("Alt-R " + _("Play"));
                     activity.toolbar.highlightStop(platformColor.stopIconcolor);
                     activity._doFastButton();
                     break;
                 }
-                case 13: {
+                case "Enter": {
                     // Alt+ENTER
                     if (activity.isInputON) return;
 
@@ -263,19 +269,19 @@ class KeyboardController {
                     }
                     break;
                 }
-                case 83: // 'S'
+                case "s": // 'S'
                     activity.textMsg("Alt-S " + _("Stop"));
                     activity.logo.doStopTurtles();
                     break;
-                case 86: // 'V'
+                case "v": // 'V'
                     // activity.textMsg("Alt-V " + _("Paste"));
                     activity.blocks.pasteStack();
                     break;
-                case 72: // 'H' save block help
+                case "h": // 'H' save block help
                     activity.textMsg("Alt-H " + _("Save block help"));
                     activity._saveHelpBlocks();
                     break;
-                case 191:
+                case "/":
                     if (
                         event.key === "/" &&
                         !activity.beginnerMode &&
@@ -285,7 +291,7 @@ class KeyboardController {
                         activity.stageDirty = true;
                     }
                 // fall through
-                case 220:
+                case "\\":
                     if (
                         event.key === "\\" &&
                         !activity.beginnerMode &&
@@ -295,13 +301,13 @@ class KeyboardController {
                         activity.stageDirty = true;
                     }
             }
-        } else if (event.ctrlKey || (event.metaKey && event.keyCode === 90)) {
+        } else if (event.ctrlKey) {
             switch (event.keyCode) {
                 case 90: // 'Z'
                     event.preventDefault();
                     activity.blocks.undoAction();
                     break;
-                case 89: // 'Y'
+                case "y": // 'Y'
                     event.preventDefault();
                     activity.blocks.redoAction();
                     break;
@@ -319,7 +325,7 @@ class KeyboardController {
                     break;
             }
         } else if (event.shiftKey && !disableKeys) {
-            switch (event.keyCode) {
+            switch (event.key.length === 1 ? event.key.toLowerCase() : event.key) {
                 case SPACE:
                     event.preventDefault();
                     if (activity.turtleContainer.scaleX === 1) {
@@ -330,11 +336,11 @@ class KeyboardController {
                     break;
             }
         } else {
-            if (pasteEl.style.visibility === "visible" && event.keyCode === RETURN) {
+            if (pasteEl.style.visibility === "visible" && event.key === RETURN) {
                 if (pasteEl.value.length > 0) {
                     activity.pasted();
                 }
-            } else if (event.keyCode === SPACE) {
+            } else if (event.key === SPACE) {
                 // Check if any widget window is open
                 const hasOpenWidget = this._hasOpenWidget();
                 if (activity.turtles.running()) {
@@ -354,7 +360,7 @@ class KeyboardController {
                     activity.palettes.dict[activity.palettes.activePalette]
                         ? activity.palettes.dict[activity.palettes.activePalette]
                         : null;
-                switch (event.keyCode) {
+                switch (event.key.length === 1 ? event.key.toLowerCase() : event.key) {
                     case END:
                         activity.textMsg("END " + _("Jumping to the bottom of the page."));
                         activity.blocksContainer.y =
@@ -493,7 +499,8 @@ class KeyboardController {
 
             // Always store current key so as not to mask it from
             // the keyboard block.
-            activity.currentKeyCode = event.keyCode;
+            activity.currentKeyCode =
+                event.key && event.key.length === 1 ? event.key.charCodeAt(0) : event.keyCode;
         }
     }
 

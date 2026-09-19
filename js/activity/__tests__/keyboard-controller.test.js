@@ -129,9 +129,35 @@ const makeActivity = (overrides = {}) => ({
     ...overrides
 });
 
+const KEY_MAP = {
+    38: "ArrowUp",
+    40: "ArrowDown",
+    37: "ArrowLeft",
+    39: "ArrowRight",
+    32: " ",
+    36: "Home",
+    35: "End",
+    33: "PageUp",
+    34: "PageDown",
+    46: "Delete",
+    86: "v",
+    67: "c",
+    82: "r",
+    27: "Escape",
+    9: "Tab",
+    13: "Enter",
+    90: "z",
+    89: "y"
+};
+
 const makeEvent = (overrides = {}) => ({
     keyCode: 0,
-    key: "",
+    key:
+        overrides.key !== undefined
+            ? overrides.key
+            : overrides.keyCode
+              ? KEY_MAP[overrides.keyCode] || ""
+              : "",
     altKey: false,
     ctrlKey: false,
     metaKey: false,
@@ -183,7 +209,11 @@ const createController = activity => {
 const dispatchKeydown = props => {
     const event = new Event("keydown", { cancelable: true });
     Object.defineProperty(event, "keyCode", { value: props.keyCode ?? 0, configurable: true });
-    Object.defineProperty(event, "key", { value: props.key ?? "", configurable: true });
+    Object.defineProperty(event, "key", {
+        value:
+            props.key !== undefined ? props.key : props.keyCode ? KEY_MAP[props.keyCode] || "" : "",
+        configurable: true
+    });
     Object.defineProperty(event, "altKey", { value: !!props.altKey, configurable: true });
     Object.defineProperty(event, "ctrlKey", { value: !!props.ctrlKey, configurable: true });
     Object.defineProperty(event, "shiftKey", { value: !!props.shiftKey, configurable: true });
