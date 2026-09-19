@@ -1435,6 +1435,7 @@ describe("Palettes Class", () => {
                 parentNode: { appendChild: jest.fn() }
             };
             const paletteBody = {
+                appendChild: jest.fn(),
                 insertAdjacentHTML: jest.fn(),
                 style: {},
                 childNodes: [{ style: {} }, { style: {} }],
@@ -1488,6 +1489,7 @@ describe("Palettes Class", () => {
                 getBoundingClientRect: jest.fn(() => ({ top: 180 }))
             };
             const paletteBody = {
+                appendChild: jest.fn(),
                 insertAdjacentHTML: jest.fn(),
                 style: {},
                 childNodes: [{ style: {} }, paletteItems],
@@ -1537,9 +1539,9 @@ describe("Palettes Class", () => {
             palette.showMenu(true);
 
             expect(paletteItems.style.height).toBe("720px");
-            const insertedMarkup = paletteBody.insertAdjacentHTML.mock.calls[0][1];
-            expect(insertedMarkup).toContain("overflow: auto");
-            expect(insertedMarkup).toContain("overflow-x: hidden");
+            const tbodyMock = paletteBody.appendChild.mock.calls[1][0];
+            expect(tbodyMock.style.overflow).toBe("auto");
+            expect(tbodyMock.style.overflowX).toBe("hidden");
         });
 
         test("scrollEvent scrolls the open block list and scrollDiff mirrors it", () => {
