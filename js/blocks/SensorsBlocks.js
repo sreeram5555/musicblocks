@@ -565,9 +565,13 @@ function setupSensorsBlocks(activity) {
                 colorString = hex2rgb(colorString);
             }
 
-            const obj = colorString.split("(")[1].split(",");
-            const component = Number(obj[this.colorIndex]);
-            return parseInt(component / 2.55, 10);
+            try {
+                const obj = colorString.split("(")[1].split(",");
+                const component = Number(obj[this.colorIndex]);
+                return parseInt(component / 2.55, 10);
+            } catch (error) {
+                return 0; // Return a safe fallback on parse failure
+            }
         }
     }
 

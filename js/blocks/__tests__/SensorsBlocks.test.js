@@ -380,6 +380,57 @@ describe("setupSensorsBlocks", () => {
         });
     });
 
+    describe("GetColorComponentBlock", () => {
+        let getRedBlock, getGreenBlock, getBlueBlock;
+
+        beforeEach(() => {
+            getRedBlock = DummyFlowBlock.createdBlocks["getred"];
+            getGreenBlock = DummyFlowBlock.createdBlocks["getgreen"];
+            getBlueBlock = DummyFlowBlock.createdBlocks["getblue"];
+
+            activity.turtles.ithTurtle(turtleIndex).painter = {
+                canvasColor: "rgba(255,128,64,1)"
+            };
+
+            // Mock hex2rgb
+            global.isValidHex = jest.fn(color => color.startsWith("#"));
+            global.hex2rgb = jest.fn(() => "rgba(255,0,0,1)");
+        });
+
+        it("should parse the red component correctly", () => {
+            const red = getRedBlock.arg(logo, turtleIndex);
+            // 255 / 2.55 = 100
+            expect(red).toBe(100);
+        });
+
+        it("should parse the green component correctly", () => {
+            const green = getGreenBlock.arg(logo, turtleIndex);
+            // 128 / 2.55 = 50
+            expect(green).toBe(50);
+        });
+
+        it("should parse the blue component correctly", () => {
+            const blue = getBlueBlock.arg(logo, turtleIndex);
+            // 64 / 2.55 = 25
+            expect(blue).toBe(25);
+        });
+
+        it("should safely return 0 when the color format is invalid", () => {
+            activity.turtles.ithTurtle(turtleIndex).painter.canvasColor = "invalid_color_format";
+            const red = getRedBlock.arg(logo, turtleIndex);
+            expect(red).toBe(0);
+        });
+
+        it("should use hex2rgb if color is hex", () => {
+            activity.turtles.ithTurtle(turtleIndex).painter.canvasColor = "#ff0000";
+            const red = getRedBlock.arg(logo, turtleIndex);
+            expect(global.isValidHex).toHaveBeenCalledWith("#ff0000");
+            expect(global.hex2rgb).toHaveBeenCalledWith("#ff0000");
+            // hex2rgb mock returns "rgba(255,0,0,1)", so red is 100
+            expect(red).toBe(100);
+        });
+    });
+
     describe("InputBlock", () => {
         it("should set up the input form and wait for input", () => {
             const inputBlock = DummyFlowBlock.createdBlocks["input"];
