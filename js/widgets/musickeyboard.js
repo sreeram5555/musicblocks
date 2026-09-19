@@ -57,10 +57,10 @@ function MusicKeyboard(activity) {
     const BUTTONSIZE = 53;
     const ICONSIZE = 32;
     // Mapping between keycodes and virtual keyboard
-    const BLACKKEYS = [81, 87, 69, 82, 84, 89, 85, 73, 79, 80];
-    const HERTZKEYS = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48];
-    const WHITEKEYS = [65, 83, 68, 70, 71, 72, 74, 75, 76];
-    const SPACE = 32;
+    const BLACKKEYS = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
+    const HERTZKEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    const WHITEKEYS = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
+    const SPACE = " ";
     // Black-key column indices that are gaps in the piano layout (no black
     // key between E-F and B-C) and are rendered as invisible spacers.
     const BLACKKEY_SPACER_INDICES = [
@@ -505,7 +505,7 @@ function MusicKeyboard(activity) {
          */
         const __getNoteId = event => {
             let id;
-            const key = event.keyCode;
+            const key = event.key ? event.key.toLowerCase() : "";
 
             if (WHITEKEYS.includes(key)) {
                 id = `whiteRow${WHITEKEYS.indexOf(key)}`;
@@ -607,10 +607,11 @@ function MusicKeyboard(activity) {
                 this.shiftOctave(-1);
                 return;
             }
-            if (current.has(event.keyCode)) return;
+            const key = event.key ? event.key.toLowerCase() : "";
+            if (current.has(key)) return;
 
             __startNote(event);
-            current.add(event.keyCode);
+            current.add(key);
         };
 
         /**
@@ -696,7 +697,8 @@ function MusicKeyboard(activity) {
          * @param {KeyboardEvent} event - The keyboard event.
          */
         const __keyboardup = function (event) {
-            current.delete(event.keyCode);
+            const key = event.key ? event.key.toLowerCase() : "";
+            current.delete(key);
             __endNote(event);
         };
 

@@ -877,13 +877,13 @@ describe("Arpeggio Widget", () => {
                 expect(arpeggio._blockMap).toContainEqual([1, 1]);
             });
 
-            test("keyCode fallbacks trigger octave shift and play toggle", () => {
+            test("event.code or event.key trigger octave shift and play toggle", () => {
                 arpeggio.addNode(1, 1);
                 arpeggio.playButton.onclick = jest.fn();
 
-                // keyCode 38 (Up) with shiftKey
+                // event.code "ArrowUp" with shiftKey
                 const upEvent = {
-                    keyCode: 38,
+                    code: "ArrowUp",
                     shiftKey: true,
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
@@ -892,9 +892,9 @@ describe("Arpeggio Widget", () => {
                 expect(arpeggio._blockMap).toContainEqual([0, 1]);
                 expect(upEvent.preventDefault).toHaveBeenCalled();
 
-                // keyCode 40 (Down) with shiftKey
+                // event.code "ArrowDown" with shiftKey
                 const downEvent = {
-                    keyCode: 40,
+                    code: "ArrowDown",
                     shiftKey: true,
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
@@ -903,9 +903,9 @@ describe("Arpeggio Widget", () => {
                 expect(arpeggio._blockMap).toContainEqual([1, 1]);
                 expect(downEvent.preventDefault).toHaveBeenCalled();
 
-                // keyCode 32 (Space)
+                // event.code "Space"
                 const spaceEvent = {
-                    keyCode: 32,
+                    code: "Space",
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
                 };
