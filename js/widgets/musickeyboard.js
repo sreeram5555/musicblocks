@@ -56,11 +56,12 @@ function MusicKeyboard(activity) {
     const OUTERWINDOWWIDTH = 758;
     const BUTTONSIZE = 53;
     const ICONSIZE = 32;
-    // Mapping between keycodes and virtual keyboard
-    const BLACKKEYS = [81, 87, 69, 82, 84, 89, 85, 73, 79, 80];
-    const HERTZKEYS = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48];
-    const WHITEKEYS = [65, 83, 68, 70, 71, 72, 74, 75, 76];
-    const SPACE = 32;
+    // Mapping between keyboard keys and virtual keyboard rows.
+    // Each entry is the event.key value for a physical key.
+    const BLACKKEYS = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
+    const HERTZKEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    const WHITEKEYS = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
+    const SPACE = " ";
     // Black-key column indices that are gaps in the piano layout (no black
     // key between E-F and B-C) and are rendered as invisible spacers.
     const BLACKKEY_SPACER_INDICES = [
@@ -505,7 +506,7 @@ function MusicKeyboard(activity) {
          */
         const __getNoteId = event => {
             let id;
-            const key = event.keyCode;
+            const key = event.key ? event.key.toLowerCase() : "";
 
             if (WHITEKEYS.includes(key)) {
                 id = `whiteRow${WHITEKEYS.indexOf(key)}`;
@@ -607,10 +608,11 @@ function MusicKeyboard(activity) {
                 this.shiftOctave(-1);
                 return;
             }
-            if (current.has(event.keyCode)) return;
+            const currentKey = event.key ? event.key.toLowerCase() : "";
+            if (current.has(currentKey)) return;
 
             __startNote(event);
-            current.add(event.keyCode);
+            current.add(currentKey);
         };
 
         /**
@@ -696,7 +698,7 @@ function MusicKeyboard(activity) {
          * @param {KeyboardEvent} event - The keyboard event.
          */
         const __keyboardup = function (event) {
-            current.delete(event.keyCode);
+            current.delete(event.key ? event.key.toLowerCase() : "");
             __endNote(event);
         };
 
@@ -3198,7 +3200,7 @@ function MusicKeyboard(activity) {
                     newel,
                     this.displayLayout[p].voice,
                     "",
-                    myrowId < WHITEKEYS.length ? String.fromCharCode(WHITEKEYS[myrowId]) : null
+                    myrowId < WHITEKEYS.length ? WHITEKEYS[myrowId].toUpperCase() : null
                 );
 
                 this.displayLayout[p].objId = "whiteRow" + myrowId.toString();
@@ -3227,7 +3229,7 @@ function MusicKeyboard(activity) {
                     newel,
                     "",
                     this.displayLayout[p].noteOctave,
-                    myrow3Id < HERTZKEYS.length ? String.fromCharCode(HERTZKEYS[myrow3Id]) : null
+                    myrow3Id < HERTZKEYS.length ? HERTZKEYS[myrow3Id] : null
                 );
 
                 this.displayLayout[p].objId = "hertzRow" + myrow3Id.toString();
@@ -3269,9 +3271,7 @@ function MusicKeyboard(activity) {
                         newel2,
                         "",
                         "",
-                        myrow2Id < BLACKKEYS.length
-                            ? String.fromCharCode(BLACKKEYS[myrow2Id])
-                            : null
+                        myrow2Id < BLACKKEYS.length ? BLACKKEYS[myrow2Id].toUpperCase() : null
                     );
                 }
                 this.displayLayout[p].objId = "blackRow" + myrow2Id.toString();
@@ -3321,14 +3321,14 @@ function MusicKeyboard(activity) {
                             newel2,
                             `${i18nSolfege(nname)}${FLAT}`,
                             this.displayLayout[p].noteOctave,
-                            String.fromCharCode(BLACKKEYS[myrow2Id])
+                            BLACKKEYS[myrow2Id].toUpperCase()
                         );
                     } else {
                         setKeyboardCellLabel(
                             newel2,
                             this.displayLayout[p].noteName,
                             this.displayLayout[p].noteOctave,
-                            String.fromCharCode(BLACKKEYS[myrow2Id])
+                            BLACKKEYS[myrow2Id].toUpperCase()
                         );
                     }
                 }
@@ -3364,18 +3364,14 @@ function MusicKeyboard(activity) {
                             newel,
                             i18nSolfege(this.displayLayout[p].noteName),
                             this.displayLayout[p].noteOctave,
-                            myrowId < WHITEKEYS.length
-                                ? String.fromCharCode(WHITEKEYS[myrowId])
-                                : null
+                            myrowId < WHITEKEYS.length ? WHITEKEYS[myrowId].toUpperCase() : null
                         );
                     } else {
                         setKeyboardCellLabel(
                             newel,
                             this.displayLayout[p].noteName,
                             this.displayLayout[p].noteOctave,
-                            myrowId < WHITEKEYS.length
-                                ? String.fromCharCode(WHITEKEYS[myrowId])
-                                : null
+                            myrowId < WHITEKEYS.length ? WHITEKEYS[myrowId].toUpperCase() : null
                         );
                     }
                 }
