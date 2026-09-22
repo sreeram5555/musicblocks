@@ -242,7 +242,7 @@ class Arpeggio {
                 return;
             }
 
-            if (event.key === " " || event.code === "Space" || event.keyCode === 32) {
+            if (event.key === " " || event.code === "Space") {
                 event.preventDefault();
                 event.stopPropagation();
                 if (event.repeat) {
@@ -258,20 +258,14 @@ class Arpeggio {
                 return;
             }
 
-            if (
-                event.shiftKey &&
-                (event.key === "ArrowUp" || event.code === "ArrowUp" || event.keyCode === 38)
-            ) {
+            if (event.shiftKey && (event.key === "ArrowUp" || event.code === "ArrowUp")) {
                 event.preventDefault();
                 event.stopPropagation();
                 this._shiftOctave(-1);
                 return;
             }
 
-            if (
-                event.shiftKey &&
-                (event.key === "ArrowDown" || event.code === "ArrowDown" || event.keyCode === 40)
-            ) {
+            if (event.shiftKey && (event.key === "ArrowDown" || event.code === "ArrowDown")) {
                 event.preventDefault();
                 event.stopPropagation();
                 this._shiftOctave(1);

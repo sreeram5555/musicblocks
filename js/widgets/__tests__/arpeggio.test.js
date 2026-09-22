@@ -877,43 +877,6 @@ describe("Arpeggio Widget", () => {
                 expect(arpeggio._blockMap).toContainEqual([1, 1]);
             });
 
-            test("keyCode fallbacks trigger octave shift and play toggle", () => {
-                arpeggio.addNode(1, 1);
-                arpeggio.playButton.onclick = jest.fn();
-
-                // keyCode 38 (Up) with shiftKey
-                const upEvent = {
-                    keyCode: 38,
-                    shiftKey: true,
-                    preventDefault: jest.fn(),
-                    stopPropagation: jest.fn()
-                };
-                arpeggio._keyHandler(upEvent);
-                expect(arpeggio._blockMap).toContainEqual([0, 1]);
-                expect(upEvent.preventDefault).toHaveBeenCalled();
-
-                // keyCode 40 (Down) with shiftKey
-                const downEvent = {
-                    keyCode: 40,
-                    shiftKey: true,
-                    preventDefault: jest.fn(),
-                    stopPropagation: jest.fn()
-                };
-                arpeggio._keyHandler(downEvent);
-                expect(arpeggio._blockMap).toContainEqual([1, 1]);
-                expect(downEvent.preventDefault).toHaveBeenCalled();
-
-                // keyCode 32 (Space)
-                const spaceEvent = {
-                    keyCode: 32,
-                    preventDefault: jest.fn(),
-                    stopPropagation: jest.fn()
-                };
-                arpeggio._keyHandler(spaceEvent);
-                expect(arpeggio.playButton.onclick).toHaveBeenCalled();
-                expect(spaceEvent.preventDefault).toHaveBeenCalled();
-            });
-
             test("keyboard shortcuts are ignored when widget is not focused", () => {
                 global.window.widgetWindows.focused = {}; // different widget
                 arpeggio.playButton.onclick = jest.fn();

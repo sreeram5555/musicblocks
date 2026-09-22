@@ -1201,54 +1201,10 @@ describe("Tempo Widget", () => {
             tempoWidget.widgetWindow.onclose();
         });
 
-        test("keydown listener supports keyCode fallbacks, event.code, and code === 'Space'", () => {
+        test("keydown listener supports event.code, and code === 'Space'", () => {
             tempoWidget.BPMs = [120];
             tempoWidget.init(mockActivity);
             const handler = tempoWidget._keyHandler;
-
-            // keyCode 38 (Up)
-            const upKeyCodeEvent = {
-                keyCode: 38,
-                shiftKey: false,
-                preventDefault: jest.fn(),
-                stopPropagation: jest.fn()
-            };
-            handler(upKeyCodeEvent);
-            expect(upKeyCodeEvent.preventDefault).toHaveBeenCalled();
-            expect(tempoWidget.BPMs[0]).toBe(121);
-
-            // keyCode 39 (Right) should not be handled
-            const rightKeyCodeEvent = {
-                keyCode: 39,
-                shiftKey: false,
-                preventDefault: jest.fn(),
-                stopPropagation: jest.fn()
-            };
-            handler(rightKeyCodeEvent);
-            expect(rightKeyCodeEvent.preventDefault).not.toHaveBeenCalled();
-            expect(tempoWidget.BPMs[0]).toBe(121);
-
-            // keyCode 40 (Down)
-            const downKeyCodeEvent = {
-                keyCode: 40,
-                shiftKey: false,
-                preventDefault: jest.fn(),
-                stopPropagation: jest.fn()
-            };
-            handler(downKeyCodeEvent);
-            expect(downKeyCodeEvent.preventDefault).toHaveBeenCalled();
-            expect(tempoWidget.BPMs[0]).toBe(120);
-
-            // keyCode 37 (Left) should not be handled
-            const leftKeyCodeEvent = {
-                keyCode: 37,
-                shiftKey: false,
-                preventDefault: jest.fn(),
-                stopPropagation: jest.fn()
-            };
-            handler(leftKeyCodeEvent);
-            expect(leftKeyCodeEvent.preventDefault).not.toHaveBeenCalled();
-            expect(tempoWidget.BPMs[0]).toBe(120);
 
             // code === "ArrowUp" and code === "ArrowDown"
             const codeUpEvent = {
@@ -1282,15 +1238,7 @@ describe("Tempo Widget", () => {
             expect(codeSpaceEvent.preventDefault).toHaveBeenCalled();
             expect(toggleSpy).toHaveBeenCalledTimes(1);
 
-            // keyCode === 32
-            const keyCodeSpaceEvent = {
-                keyCode: 32,
-                preventDefault: jest.fn(),
-                stopPropagation: jest.fn()
-            };
-            handler(keyCodeSpaceEvent);
-            expect(keyCodeSpaceEvent.preventDefault).toHaveBeenCalled();
-            expect(toggleSpy).toHaveBeenCalledTimes(2);
+            expect(toggleSpy).toHaveBeenCalledTimes(1);
 
             toggleSpy.mockRestore();
             tempoWidget.widgetWindow.onclose();
