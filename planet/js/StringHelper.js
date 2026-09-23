@@ -94,7 +94,7 @@ class StringHelper {
                 if (this.strings[i].length === 3) {
                     elem.setAttribute(obj[2], obj[1]);
                 } else if (HTML_ALLOWED_IDS.has(obj[0])) {
-                    elem.innerHTML = elem.innerHTML + sanitizeAllowedHTML(obj[1]);
+                    elem.insertAdjacentHTML("beforeend", sanitizeAllowedHTML(obj[1]));
                 } else {
                     elem.textContent = (elem.textContent || "") + obj[1];
                 }
