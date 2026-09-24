@@ -4516,7 +4516,7 @@ const getCustomNote = note => {
 
     let centsInfo = "";
     if (note.includes("(")) {
-        centsInfo = note.substring(note.indexOf("("), note.length);
+        centsInfo = note.slice(note.indexOf("("), note.length);
     }
 
     note = note.replace(centsInfo, "");
@@ -4573,15 +4573,15 @@ const pitchToNumber = (pitch, octave, keySignature, temperament) => {
         if (len > 2) {
             lastTwo = pitch.slice(len - 2);
             //Unsure why slice is not working for double flats and double sharps.
-            lastOne = pitch.substring(1, len);
+            lastOne = pitch.slice(1, len);
             if (lastTwo === "bb") {
-                pitch = pitch.substring(0, 1);
+                pitch = pitch.slice(0, 1);
                 transposition -= 2;
             } else if (lastOne === DOUBLEFLAT) {
-                pitch = pitch.substring(0, 1);
+                pitch = pitch.slice(0, 1);
                 transposition -= 2;
             } else if (lastTwo === "##" || lastTwo === "*" || lastTwo === DOUBLESHARP) {
-                pitch = pitch.substring(0, 1);
+                pitch = pitch.slice(0, 1);
                 transposition += 2;
             } else if (
                 lastTwo === "#b" ||
@@ -4749,10 +4749,10 @@ const getNumber = (notename, octave, temperament, edo) => {
     }
 
     notename = String(notename);
-    if (notename.substring(0, 1) in NOTESTEP) {
-        num += Math.round((NOTESTEP[notename.substring(0, 1)] / 12) * currentEDO);
+    if (notename.slice(0, 1) in NOTESTEP) {
+        num += Math.round((NOTESTEP[notename.slice(0, 1)] / 12) * currentEDO);
         if (notename.length >= 1) {
-            const delta = notename.substring(1);
+            const delta = notename.slice(1);
             if (delta === "bb" || delta === DOUBLEFLAT) {
                 num -= 2;
             } else if (delta === "##" || delta === "*" || delta === DOUBLESHARP) {
@@ -4780,7 +4780,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
     if (temperament === undefined) {
         temperament = "equal";
     }
-    const pitch1 = pitch.substring(0, 1);
+    const pitch1 = pitch.slice(0, 1);
     const parsed = parseNoteString(pitch);
     const note1 = parsed[0];
     const octave1 = parsed[1];
@@ -4817,9 +4817,9 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             octave = octave1 + 1;
         }
         const id = pitches[index];
-        if (note[0].substring(0, 1) === id) {
+        if (note[0].slice(0, 1) === id) {
             return [note[0], octave];
-        } else if (note[0].substring(0, 1) !== id) {
+        } else if (note[0].slice(0, 1) !== id) {
             note = numberToPitchSharp(number + halfSteps, temperament);
             if (note[0] === id) {
                 return [note[0], octave];
@@ -4853,7 +4853,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         ) {
             //Major intervals lowered by a half step become minor.
             majorNote = findMajorInterval("major " + num[num.length - 1]);
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 0) {
                 accidental = priorAttrs[index1] + FLAT;
@@ -4874,7 +4874,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             }
 
             // Lowering by one half step
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 0) {
                 accidental = priorAttrs[index1] + FLAT;
@@ -4886,7 +4886,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         // Special case: doubly diminished 5th (very diminished)
         else if (interval === "down-diminished 5") {
             majorNote = findMajorInterval("perfect 5");
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
 
             // Lowering by Two half steps for "very diminished"
@@ -4902,7 +4902,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         // Special case: diminished 2nd (from unison)
         else if (interval === "diminished 2") {
             majorNote = findMajorInterval("perfect 1");
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 0) {
                 accidental = priorAttrs[index1] + FLAT;
@@ -4924,7 +4924,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             }
 
             majorNote = findMajorInterval(baseInterval);
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
 
             // Lower by one half-step from the base interval
@@ -4945,7 +4945,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             }
 
             // Raise by one half step
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 4) {
                 accidental = priorAttrs[index1] + SHARP;
@@ -4957,7 +4957,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         // Special case: augmented unison
         else if (interval === "augmented 1") {
             majorNote = findMajorInterval("perfect 1");
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 4) {
                 accidental = priorAttrs[index1] + SHARP;
@@ -4984,7 +4984,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
                 // Major-based augmented intervals
                 majorNote = findMajorInterval("major " + intervalNum);
             }
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 4) {
                 accidental = priorAttrs[index1] + SHARP;
@@ -5003,7 +5003,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             let intervalNum;
             intervalNum = interval.split(" ")[1];
             majorNote = findMajorInterval("major " + intervalNum);
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 4) {
                 accidental = priorAttrs[index1] + SHARP;
@@ -5020,7 +5020,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         ) {
             const intervalNum = interval.split(" ")[1];
             majorNote = findMajorInterval("major " + intervalNum);
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
 
             // Lower by an additional half step (total of two half steps below major)
@@ -5040,7 +5040,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
         ) {
             const intervalNum = interval.split(" ")[1];
             majorNote = findMajorInterval("major " + intervalNum);
-            accidental = majorNote[0].substring(1, majorNote[0].length);
+            accidental = majorNote[0].slice(1, majorNote[0].length);
             index1 = priorAttrs.indexOf(accidental);
             if (index1 === 0) {
                 accidental = priorAttrs[index1] + FLAT;
@@ -5049,7 +5049,7 @@ const getNoteFromInterval = (pitch, interval, temperament) => {
             }
         }
 
-        return [majorNote[0].substring(0, 1) + accidental + "", majorNote[1]];
+        return [majorNote[0].slice(0, 1) + accidental + "", majorNote[1]];
     };
 
     if (
@@ -7373,7 +7373,7 @@ const parseNoteString = note => {
     const len = note.length;
     const lastChar = note.charAt(len - 1);
     const octave = lastChar && !isNaN(lastChar) ? Number(lastChar) : NaN;
-    return [note.substring(0, len - 1), octave];
+    return [note.slice(0, len - 1), octave];
 };
 
 /**

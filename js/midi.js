@@ -52,7 +52,7 @@ const splitNoteName = name => {
     const match = /^(.*?)(-?\d+)$/.exec(name);
     return match
         ? [match[1], parseInt(match[2], 10)]
-        : [name.substring(0, name.length - 1), parseInt(name[name.length - 1], 10)];
+        : [name.slice(0, name.length - 1), parseInt(name[name.length - 1], 10)];
 };
 
 const getClosestStandardNoteValue = duration => {

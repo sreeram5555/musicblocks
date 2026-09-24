@@ -1197,7 +1197,7 @@ function AIWidget() {
 
                     const abcStartIndex = responseText.indexOf("X:");
                     let abcNotation =
-                        abcStartIndex !== -1 ? responseText.substring(abcStartIndex) : responseText;
+                        abcStartIndex !== -1 ? responseText.slice(abcStartIndex) : responseText;
 
                     abcNotation = abcNotation.replace(/"|\}/g, "").trim();
 

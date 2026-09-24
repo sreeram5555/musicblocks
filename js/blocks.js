@@ -2948,7 +2948,7 @@ class Blocks {
                 const len = this.activity.logo.synth.startingPitch.length;
                 postProcessArg = [
                     thisBlock,
-                    this.activity.logo.synth.startingPitch.substring(0, len - 1) +
+                    this.activity.logo.synth.startingPitch.slice(0, len - 1) +
                         "(+0" +
                         CENTSSYMBOL +
                         ")"

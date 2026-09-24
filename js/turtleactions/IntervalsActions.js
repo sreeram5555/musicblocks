@@ -152,8 +152,8 @@ function setupIntervalsActions(activity) {
 
             const { firstNote, secondNote, octave } = GetNotesForInterval(tur);
 
-            const index1 = NOTENAMES.indexOf(firstNote.substring(0, 1));
-            const index2 = NOTENAMES.indexOf(secondNote.substring(0, 1));
+            const index1 = NOTENAMES.indexOf(firstNote.slice(0, 1));
+            const index2 = NOTENAMES.indexOf(secondNote.slice(0, 1));
             let lastWord = "";
             let letterGap = Math.abs(index2 - index1);
 

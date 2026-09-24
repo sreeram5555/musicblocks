@@ -4978,7 +4978,7 @@ class PhraseMaker {
                                     [
                                         "customNote",
                                         {
-                                            value: note[0][j].substring(0, note[0][j].length - 1)
+                                            value: note[0][j].slice(0, note[0][j].length - 1)
                                         }
                                     ],
                                     0,
@@ -5044,7 +5044,7 @@ class PhraseMaker {
                                     [
                                         "customNote",
                                         {
-                                            value: note[0][j].substring(0, note[0][j].length - 1)
+                                            value: note[0][j].slice(0, note[0][j].length - 1)
                                         }
                                     ],
                                     0,
@@ -5106,7 +5106,7 @@ class PhraseMaker {
                                     [
                                         "customNote",
                                         {
-                                            value: note[0][j].substring(0, note[0][j].length - 1)
+                                            value: note[0][j].slice(0, note[0][j].length - 1)
                                         }
                                     ],
                                     0,

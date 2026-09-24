@@ -622,10 +622,8 @@ function SampleWidget() {
         reader.onload = () => {
             // if the file is of .wav type, save it
             if (
-                reader.result.substring(
-                    reader.result.indexOf(":") + 1,
-                    reader.result.indexOf(";")
-                ) === "audio/wav"
+                reader.result.slice(reader.result.indexOf(":") + 1, reader.result.indexOf(";")) ===
+                "audio/wav"
             ) {
                 if (reader.result.length <= 1333333) {
                     this.sampleData = reader.result;
@@ -1643,7 +1641,7 @@ function SampleWidget() {
      * @returns {void}
      */
     this._parseSamplePitch = function () {
-        const first_part = this.samplePitch.substring(0, 2);
+        const first_part = this.samplePitch.slice(0, 2);
         if (first_part === "so") {
             this.pitchCenter = 4;
         } else {

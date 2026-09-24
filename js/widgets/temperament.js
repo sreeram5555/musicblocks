@@ -1331,13 +1331,13 @@ function TemperamentWidget() {
                 that.notes[i] = str_i;
                 let noteName = str_i[0];
                 if (
-                    noteName.substring(1, noteName.length) === FLAT ||
-                    noteName.substring(1, noteName.length) === "b"
+                    noteName.slice(1, noteName.length) === FLAT ||
+                    noteName.slice(1, noteName.length) === "b"
                 ) {
                     noteName = noteName.replace(FLAT, "b");
                 } else if (
-                    noteName.substring(1, noteName.length) === SHARP ||
-                    noteName.substring(1, noteName.length) === "#"
+                    noteName.slice(1, noteName.length) === SHARP ||
+                    noteName.slice(1, noteName.length) === "#"
                 ) {
                     noteName = noteName.replace(SHARP, "#");
                 }
@@ -3115,13 +3115,13 @@ function TemperamentWidget() {
                 note[i] = str[i][0];
 
                 if (
-                    str[i][0].substring(1, str[i][0].length) === FLAT ||
-                    str[i][0].substring(1, str[i][0].length) === "b"
+                    str[i][0].slice(1, str[i][0].length) === FLAT ||
+                    str[i][0].slice(1, str[i][0].length) === "b"
                 ) {
                     note[i] = str[i][0].replace(FLAT, "b");
                 } else if (
-                    str[i][0].substring(1, str[i][0].length) === SHARP ||
-                    str[i][0].substring(1, str[i][0].length) === "#"
+                    str[i][0].slice(1, str[i][0].length) === SHARP ||
+                    str[i][0].slice(1, str[i][0].length) === "#"
                 ) {
                     note[i] = str[i][0].replace(SHARP, "#");
                 }

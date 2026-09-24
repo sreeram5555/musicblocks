@@ -146,7 +146,7 @@ function AIDebuggerWidget() {
      * @private
      */
     this._generateConversationId = function () {
-        return "conv_" + Date.now() + "_" + Math.random().toString(36).substring(2, 11);
+        return "conv_" + Date.now() + "_" + Math.random().toString(36).slice(2, 11);
     };
 
     this.conversationId = this._generateConversationId();

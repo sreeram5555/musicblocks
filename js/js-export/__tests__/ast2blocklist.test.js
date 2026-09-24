@@ -86,7 +86,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual(
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual(
                 "Unsupported AssignmentExpression: box1 = box2 - 1"
             );
         }
@@ -111,7 +111,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual(
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual(
                 "Unsupported operator <<: 1 << 2"
             );
         }
@@ -136,7 +136,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual("Unsupported operator ~: ~2");
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual("Unsupported operator ~: ~2");
         }
     });
 
@@ -159,7 +159,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual(
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual(
                 "Unsupported operator unsupported: Math.unsupported(1)"
             );
         }
@@ -184,7 +184,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual(
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual(
                 "Unsupported argument type ArrayExpression: [1]"
             );
         }
@@ -198,7 +198,7 @@ describe("AST2BlockList Class", () => {
         try {
             AST2BlockList.toBlockList(AST, config);
         } catch (e) {
-            expect(e.prefix + code.substring(e.start, e.end)).toEqual(
+            expect(e.prefix + code.slice(e.start, e.end)).toEqual(
                 "Unsupported statement: console.log('test');"
             );
         }

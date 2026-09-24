@@ -287,9 +287,9 @@ class JSEditor {
             const { node: textNode, overlapStart, overlapEnd } = nodesToWrap[i];
             const content = textNode.textContent;
 
-            const beforeText = content.substring(0, overlapStart);
-            const errorText = content.substring(overlapStart, overlapEnd);
-            const afterText = content.substring(overlapEnd);
+            const beforeText = content.slice(0, overlapStart);
+            const errorText = content.slice(overlapStart, overlapEnd);
+            const afterText = content.slice(overlapEnd);
 
             const fragment = document.createDocumentFragment();
 
@@ -1090,7 +1090,7 @@ class JSEditor {
             });
         } catch (e) {
             JSEditor.logConsole(
-                "message" in e ? e.message : e.prefix + this._code.substring(e.start, e.end),
+                "message" in e ? e.message : e.prefix + this._code.slice(e.start, e.end),
                 "red"
             );
             throw e;

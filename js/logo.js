@@ -2804,7 +2804,7 @@ class Logo {
         // This is the core of the security fix for #5449.
         console.warn(
             "Blocked arbitrary JavaScript execution in plugin:",
-            code.substring(0, 100) + "..."
+            code.slice(0, 100) + "..."
         );
     }
 }

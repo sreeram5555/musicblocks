@@ -825,13 +825,13 @@ function Synth() {
         startPitch = (startPitchObj[0] + startPitchObj[1]).toString();
 
         if (
-            startPitch.substring(1, startPitch.length - 1) === FLAT ||
-            startPitch.substring(1, startPitch.length - 1) === "b"
+            startPitch.slice(1, startPitch.length - 1) === FLAT ||
+            startPitch.slice(1, startPitch.length - 1) === "b"
         ) {
             startPitch = startPitch.replace(FLAT, "b");
         } else if (
-            startPitch.substring(1, startPitch.length - 1) === SHARP ||
-            startPitch.substring(1, startPitch.length - 1) === "#"
+            startPitch.slice(1, startPitch.length - 1) === SHARP ||
+            startPitch.slice(1, startPitch.length - 1) === "#"
         ) {
             startPitch = startPitch.replace(SHARP, "#");
         }
@@ -903,16 +903,13 @@ function Synth() {
 
         for (const key in this.noteFrequencies) {
             let note;
-            if (key.substring(1, key.length) === FLAT || key.substring(1, key.length) === "b") {
-                note = key.substring(0, 1) + "" + "b";
+            if (key.slice(1, key.length) === FLAT || key.slice(1, key.length) === "b") {
+                note = key.slice(0, 1) + "" + "b";
                 this.noteFrequencies[note] = this.noteFrequencies[key];
 
                 delete this.noteFrequencies[key];
-            } else if (
-                key.substring(1, key.length) === SHARP ||
-                key.substring(1, key.length) === "#"
-            ) {
-                note = key.substring(0, 1) + "" + "#";
+            } else if (key.slice(1, key.length) === SHARP || key.slice(1, key.length) === "#") {
+                note = key.slice(0, 1) + "" + "#";
                 this.noteFrequencies[note] = this.noteFrequencies[key];
 
                 delete this.noteFrequencies[key];
@@ -1831,7 +1828,7 @@ function Synth() {
      */
     this.loadSynth = async (turtle, sourceName) => {
         sourceName = this.resolveInstrumentName(sourceName);
-        if (sourceName.substring(0, 13) === "customsample_") {
+        if (sourceName.slice(0, 13) === "customsample_") {
             console.debug("loading custom " + sourceName);
         } else {
             console.debug("loading " + sourceName);
@@ -1898,10 +1895,10 @@ function Synth() {
                 const notes1 = notes;
                 notes = this._getFrequency(notes, this.changeInTemperament);
                 if (notes === undefined) {
-                    if (notes1.substring(1, notes1.length - 1) === DOUBLEFLAT) {
-                        notes = notes1.substring(0, 1) + "bb" + notes1.substring(notes1.length - 1);
-                    } else if (notes1.substring(1, notes1.length - 1) === DOUBLESHARP) {
-                        notes = notes1.substring(0, 1) + "x" + notes1.substring(notes1.length - 1);
+                    if (notes1.slice(1, notes1.length - 1) === DOUBLEFLAT) {
+                        notes = notes1.slice(0, 1) + "bb" + notes1.slice(notes1.length - 1);
+                    } else if (notes1.slice(1, notes1.length - 1) === DOUBLESHARP) {
+                        notes = notes1.slice(0, 1) + "x" + notes1.slice(notes1.length - 1);
                     } else {
                         notes = notes1;
                     }
@@ -3136,7 +3133,7 @@ function Synth() {
                             // Get current note and accidental
                             let selectedNote = targetPitch.note[0];
                             let selectedAttr =
-                                targetPitch.note.length > 1 ? targetPitch.note.substring(1) : "♮";
+                                targetPitch.note.length > 1 ? targetPitch.note.slice(1) : "♮";
 
                             // Convert letter note to solfege for initial selection
                             let selectedSolfege = SOLFNOTES[NOTENOTES.indexOf(selectedNote)];

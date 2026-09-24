@@ -243,7 +243,7 @@ class JSGenerate {
                     }
                     str += ", ";
                 }
-                str = str.substring(0, str.length - 2) + ")";
+                str = str.slice(0, str.length - 2) + ")";
                 return str;
             }
 
