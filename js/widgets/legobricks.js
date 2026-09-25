@@ -682,7 +682,7 @@ function LegoWidget() {
         this.imagePlaceholder.style.fontSize = "16px";
         this.imagePlaceholder.style.textAlign = "center";
         this.imagePlaceholder.style.fontStyle = "italic";
-        this.imagePlaceholder.textContent = "Click upload button to add an image";
+        this.imagePlaceholder.textContent = _("Click upload button to add an image");
 
         this.imageDisplayArea.appendChild(this.imagePlaceholder);
 
@@ -728,7 +728,7 @@ function LegoWidget() {
      */
     this._createInstrumentControls = function () {
         const instrumentLabel = document.createElement("span");
-        instrumentLabel.textContent = "Instrument:";
+        instrumentLabel.textContent = _("Instrument:");
         instrumentLabel.style.fontSize = "12px";
         instrumentLabel.style.fontWeight = "bold";
 
@@ -754,7 +754,7 @@ function LegoWidget() {
      */
     this._createZoomSliderControls = function () {
         const zoomLabel = document.createElement("span");
-        zoomLabel.textContent = "Zoom:";
+        zoomLabel.textContent = _("Zoom:");
         zoomLabel.style.fontSize = "12px";
 
         const zoomOut = document.createElement("button");
@@ -789,7 +789,7 @@ function LegoWidget() {
      */
     this._createSpacingControls = function () {
         const spacingLabel = document.createElement("span");
-        spacingLabel.textContent = "Column Spacing:";
+        spacingLabel.textContent = _("Column Spacing:");
         spacingLabel.style.fontSize = "12px";
 
         const spacingOut = document.createElement("button");
@@ -824,7 +824,7 @@ function LegoWidget() {
      */
     this._createEyeDropperControls = function () {
         const eyeDropperLabel = document.createElement("span");
-        eyeDropperLabel.textContent = "Eye Dropper:";
+        eyeDropperLabel.textContent = _("Eye Dropper:");
         eyeDropperLabel.style.fontSize = "12px";
         eyeDropperLabel.style.fontWeight = "bold";
 
@@ -836,7 +836,7 @@ function LegoWidget() {
         this.eyeDropperButton.style.borderRadius = "4px";
         this.eyeDropperButton.style.backgroundColor = "#f8f8f8";
         this.eyeDropperButton.style.cursor = "pointer";
-        this.eyeDropperButton.title = "Click to activate eye dropper mode";
+        this.eyeDropperButton.title = _("Click to activate eye dropper mode");
         this.eyeDropperButton.onclick = () => this._toggleEyeDropper();
 
         return [eyeDropperLabel, this.eyeDropperButton];
@@ -849,7 +849,7 @@ function LegoWidget() {
      */
     this._createBackgroundColorControls = function () {
         const backgroundLabel = document.createElement("span");
-        backgroundLabel.textContent = "Background:";
+        backgroundLabel.textContent = _("Background:");
         backgroundLabel.style.fontSize = "12px";
         backgroundLabel.style.fontWeight = "bold";
 
@@ -1443,7 +1443,7 @@ function LegoWidget() {
                 this.webcamVideo.srcObject = stream;
 
                 const captureBtn = document.createElement("button");
-                captureBtn.textContent = " Capture";
+                captureBtn.textContent = " " + _("Capture");
                 captureBtn.style.cssText =
                     "position:absolute;bottom:10px;left:50%;transform:translateX(-50%);" +
                     "padding:8px 16px;font-size:14px;cursor:pointer;z-index:30;" +
