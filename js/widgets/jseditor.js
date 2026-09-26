@@ -1267,9 +1267,10 @@ class JSEditor {
             return;
         }
         const currentLine = lines[lineNumber].trim();
-        if (currentLine === "debugger;") {
-            lines.splice(lineNumber, 1);
+        if (currentLine !== "debugger;") {
+            return;
         }
+        lines.splice(lineNumber, 1);
         this._code = lines.join("\n");
         this._jar.updateCode(this._code);
         this._setLinesCount(this._code);

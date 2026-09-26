@@ -663,19 +663,30 @@ describe("JSEditor", () => {
         test("_removeDebuggerFromLine does not crash on out of bounds line", () => {
             const editor = createEditor();
             editor._code = "const x = 1;";
+            const logSpy = jest.spyOn(JSEditor, "logConsole");
 
             expect(() => editor._removeDebuggerFromLine(-1)).not.toThrow();
+            expect(editor._code).toBe("const x = 1;");
+            expect(logSpy).not.toHaveBeenCalled();
+
             expect(() => editor._removeDebuggerFromLine(999)).not.toThrow();
             expect(editor._code).toBe("const x = 1;");
+            expect(logSpy).not.toHaveBeenCalled();
+
+            logSpy.mockRestore();
         });
 
         test("_removeDebuggerFromLine ignores line that is not a debugger statement", () => {
             const editor = createEditor();
             editor._code = "const x = 1;\nconst y = 2;";
+            const logSpy = jest.spyOn(JSEditor, "logConsole");
 
             editor._removeDebuggerFromLine(0);
 
             expect(editor._code).toBe("const x = 1;\nconst y = 2;");
+            expect(logSpy).not.toHaveBeenCalled();
+
+            logSpy.mockRestore();
         });
     });
 
@@ -1285,8 +1296,15 @@ describe("JSEditor", () => {
 
             test("_addDebuggerToLine handles edge cases", () => {
                 editor._code = "let x = 1;\nlet y = 2;";
+                JSEditor.logConsole.mockClear();
+
                 editor._addDebuggerToLine(-1); // out of bounds
+                expect(editor._code).toBe("let x = 1;\nlet y = 2;");
+                expect(JSEditor.logConsole).not.toHaveBeenCalled();
+
                 editor._addDebuggerToLine(2); // out of bounds
+                expect(editor._code).toBe("let x = 1;\nlet y = 2;");
+                expect(JSEditor.logConsole).not.toHaveBeenCalled();
 
                 // valid line but no semicolon
                 editor._code = "let x = 1\nlet y = 2";
@@ -1295,16 +1313,20 @@ describe("JSEditor", () => {
                     expect.stringContaining("Cannot add breakpoint"),
                     "red"
                 );
+                expect(editor._code).toBe("let x = 1\nlet y = 2");
 
                 // adjacent breakpoint
+                JSEditor.logConsole.mockClear();
                 editor._code = "let x = 1;\ndebugger;\nlet y = 2;";
                 editor._addDebuggerToLine(0);
                 expect(JSEditor.logConsole).toHaveBeenCalledWith(
                     expect.stringContaining("already a breakpoint on an adjacent line"),
                     "red"
                 );
+                expect(editor._code).toBe("let x = 1;\ndebugger;\nlet y = 2;");
 
                 // success
+                JSEditor.logConsole.mockClear();
                 editor._code = "let x = 1;\nlet y = 2;";
                 editor._addDebuggerToLine(0);
                 expect(JSEditor.logConsole).toHaveBeenCalledWith(
@@ -1315,18 +1337,29 @@ describe("JSEditor", () => {
 
             test("_removeDebuggerFromLine handles edge cases", () => {
                 editor._code = "let x = 1;\ndebugger;\nlet y = 2;";
+                JSEditor.logConsole.mockClear();
+
                 editor._removeDebuggerFromLine(-1);
+                expect(editor._code).toBe("let x = 1;\ndebugger;\nlet y = 2;");
+                expect(JSEditor.logConsole).not.toHaveBeenCalled();
+
                 editor._removeDebuggerFromLine(3);
+                expect(editor._code).toBe("let x = 1;\ndebugger;\nlet y = 2;");
+                expect(JSEditor.logConsole).not.toHaveBeenCalled();
 
                 editor._removeDebuggerFromLine(1);
+                expect(editor._code).toBe("let x = 1;\nlet y = 2;");
                 expect(JSEditor.logConsole).toHaveBeenCalledWith(
                     expect.stringContaining("Debugger removed from line"),
                     "orange"
                 );
 
                 // Not a debugger line
+                JSEditor.logConsole.mockClear();
                 editor._code = "let x = 1;\nlet y = 2;";
                 editor._removeDebuggerFromLine(0);
+                expect(editor._code).toBe("let x = 1;\nlet y = 2;");
+                expect(JSEditor.logConsole).not.toHaveBeenCalled();
             });
         });
     });

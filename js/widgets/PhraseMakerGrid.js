@@ -197,7 +197,7 @@ const PhraseMakerGrid = {
             }
 
             if (pm.activity.blocks.blockList[blk] === undefined) {
-                console.warn(_("Block %s is undefined", [blk]));
+                console.debug("block " + blk + " is undefined");
                 continue;
             }
 
