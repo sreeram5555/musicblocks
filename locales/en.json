@@ -1799,5 +1799,13 @@
   "city": "city",
   "day": "day",
   "high": "high",
-  "low": "low"
+  "low": "low",
+  "Click upload button to add an image": "Click upload button to add an image",
+  "Instrument:": "Instrument:",
+  "Zoom:": "Zoom:",
+  "Column Spacing:": "Column Spacing:",
+  "Eye Dropper:": "Eye Dropper:",
+  "Click to activate eye dropper mode": "Click to activate eye dropper mode",
+  "Background:": "Background:",
+  "Capture": "Capture"
 }
