@@ -1063,7 +1063,13 @@ function AIWidget() {
         const hintsContainer = document.createElement("div");
         hintsContainer.style.cssText =
             "margin-bottom:10px;display:flex;justify-content:center;margin-top:8px";
-        const hints = ["Dance tune", "Fiddle jig", "Nice melody", "Fun song", "Simple canon"];
+        const hints = [
+            _("Dance tune"),
+            _("Fiddle jig"),
+            _("Nice melody"),
+            _("Fun song"),
+            _("Simple canon")
+        ];
         hints.forEach(hintText => {
             const hint = document.createElement("span");
             hint.textContent = hintText;
@@ -1084,7 +1090,7 @@ function AIWidget() {
         const inputField = document.createElement("input");
         inputField.type = "text";
         inputField.className = "inputField";
-        inputField.placeholder = "Enter text here";
+        inputField.placeholder = _("Enter text here");
         inputField.style.cssText =
             "font-size:20px;margin-right:2px;margin-left:64px;" +
             "padding:10px;margin-bottom:10px;width:60%";
@@ -1096,7 +1102,7 @@ function AIWidget() {
 
         const submitButton = document.createElement("button");
         submitButton.className = "submitButton";
-        submitButton.textContent = "Submit";
+        submitButton.textContent = _("Submit");
         submitButton.style.fontSize = "20px";
         submitButton.style.padding = "10px 20px";
         submitButton.style.marginBottom = "20px";
@@ -1157,7 +1163,7 @@ function AIWidget() {
             });
 
             submitButton.disabled = true;
-            textarea.value = "Loading...";
+            textarea.value = _("Loading...");
 
             fetch(apiUrl, {
                 method: "POST",
@@ -1170,12 +1176,12 @@ function AIWidget() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        textarea.value = "Groq API Error: " + data.error.message;
+                        textarea.value = _("Groq API Error: %s").replace(/%s/g, data.error.message);
                         return;
                     }
 
                     if (!data.choices || data.choices.length === 0) {
-                        textarea.value = "Error: Unexpected response format from AI.";
+                        textarea.value = _("Error: Unexpected response format from AI.");
                         return;
                     }
 
@@ -1229,7 +1235,7 @@ function AIWidget() {
                     textarea.value = abcNotationSong;
                 })
                 .catch(error => {
-                    textarea.value = "An error occurred: " + error.message;
+                    textarea.value = _("An error occurred: %s").replace(/%s/g, error.message);
                 })
                 .finally(() => {
                     submitButton.disabled = false;
