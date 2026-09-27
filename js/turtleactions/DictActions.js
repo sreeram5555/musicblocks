@@ -23,7 +23,7 @@
    global
 
    _, Turtle, Singer, getNote, INVALIDPITCH, pitchToNumber,
-   getTargetTurtle
+   getTargetTurtle, frequencyToPitch
  */
 
 /*
@@ -89,11 +89,16 @@ function setupDictActions(activity) {
             } else if (key === _("pitch number")) {
                 let obj;
                 if (targetTur.singer.lastNotePlayed !== null) {
-                    const len = targetTur.singer.lastNotePlayed[0].length;
-                    const pitch = targetTur.singer.lastNotePlayed[0].slice(0, len - 1);
-                    const octave = parseInt(targetTur.singer.lastNotePlayed[0].slice(len - 1), 10);
-
-                    obj = [pitch, octave];
+                    let lastNote = targetTur.singer.lastNotePlayed;
+                    if (typeof lastNote[0] === "number") {
+                        const converted = frequencyToPitch(lastNote[0]);
+                        obj = [converted[0], converted[1]];
+                    } else {
+                        const len = lastNote[0].length;
+                        const pitch = lastNote[0].slice(0, len - 1);
+                        const octave = parseInt(lastNote[0].slice(len - 1), 10);
+                        obj = [pitch, octave];
+                    }
                 } else if (targetTur.singer.notePitches.length > 0) {
                     obj = getNote(
                         targetTur.singer.notePitches[0],

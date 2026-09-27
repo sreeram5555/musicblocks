@@ -37,6 +37,7 @@ describe("setupDictActions", () => {
         };
         global.getNote = jest.fn().mockReturnValue(["G", 4]);
         global.pitchToNumber = jest.fn().mockReturnValue(60);
+        global.frequencyToPitch = jest.fn().mockReturnValue(["A", 4]);
         global.INVALIDPITCH = "Invalid pitch";
         global.getTargetTurtle = jest.fn();
     });
@@ -135,6 +136,14 @@ describe("setupDictActions", () => {
             const pitchNumber = Turtle.DictActions._GetDict(0, turtle, "pitch number");
             expect(pitchNumber).toBe(60);
             expect(pitchToNumber).toHaveBeenCalledWith("C", 4, "C");
+        });
+
+        it("should get the pitch number correctly when lastNotePlayed is a frequency (number)", () => {
+            targetTurtle.singer.lastNotePlayed = [440, 0];
+            const pitchNumber = Turtle.DictActions._GetDict(0, turtle, "pitch number");
+            expect(pitchNumber).toBe(60);
+            expect(frequencyToPitch).toHaveBeenCalledWith(440);
+            expect(pitchToNumber).toHaveBeenCalledWith("A", 4, "C");
         });
 
         it("should get the pitch number correctly using notePitches when lastNotePlayed is null", () => {
